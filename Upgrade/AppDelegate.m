@@ -12,7 +12,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // check if an upgrade is necessary
+    if (![[NSUserDefaults standardUserDefaults]boolForKey:@"didWeUpgrade"]) {
+        
+        // let's upgrade
+        [self upgradeApp];
+        
+        // and remember for next time
+        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"didWeUpgrade"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
+    
     return YES;
 }
 							
@@ -41,6 +51,15 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+#pragma mark - Upgrade Checks
+
+- (void)upgradeApp {
+    
+    // add your upgrade code here
+    NSLog(@"Just upgraded your app. On the next run, this does not happen again.");
 }
 
 @end
